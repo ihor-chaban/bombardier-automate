@@ -29,11 +29,15 @@ $ chmod 755 bombardier-automate.sh
 $ ./bombardier-automate.sh
 ```
 Or run in a background:
-`$ nohup ./bombardier-automate.sh &`
+```
+$ nohup ./bombardier-automate.sh &
+```
 
 Now the script will continuously iterate overall targets, check if they are available, and start DDoS if yes. You may just update the list in your Google Drive and all the changes will be picked up at the next fetch.
 
 To stop and remove all the containers after script termination use
-`$ for container in $(docker ps -a --format "{{.Names}}" | grep "^ddos_"); do docker rm -f "$container"; done`
+```
+$ for container in $(docker ps -a --format "{{.Names}}" | grep "^ddos_"); do docker rm -f "$container"; done
+```
 
 #### The actual targets and coordination info can be found here https://t.me/itarmyofukraine2022
