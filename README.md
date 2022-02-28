@@ -24,8 +24,9 @@ In case you want to change them, they are pretty straightforward and described i
 
 #### Now you are ready to go!
 Just grant the script permissions to be executed and run it:
-`$ chmod 755 bombardier-automate.sh`
-`$ ./bombardier-automate.sh`
+```
+$ chmod 755 bombardier-automate.sh
+$ ./bombardier-automate.sh
 Or run in a background:
 `$ nohup ./bombardier-automate.sh &`
 
