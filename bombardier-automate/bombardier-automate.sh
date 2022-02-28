@@ -19,6 +19,7 @@ while true; do
 		sleep 10
 	done
 	echo "Processing targets"
+	SOURCE_URLS=$(echo "$SOURCE_URLS" | sort | uniq | shuf)
 	for url in $SOURCE_URLS; do
 		printf "* $url - "
 		response=$(curl -sLo /dev/null -w ''%{http_code}'' -m "$TIMEOUT" "$url")
