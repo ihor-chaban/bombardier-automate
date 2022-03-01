@@ -6,6 +6,10 @@ Script for Docker image [alpine/bombardier](https://hub.docker.com/r/alpine/bomb
 #### Requirements
 - *NIX operating system
 - Docker installed
+- MacOS needs to have coreutils on a board
+```sh
+brew install coreutils
+```
 
 #### Example how to use with Google Drive (you may use mine or set up your own):
 - Create any `.txt` file with the list of URLs:
