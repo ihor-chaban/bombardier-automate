@@ -3,13 +3,8 @@ source "$(dirname $0)/config"
 
 if [ ! -x "$(command -v docker)" ]; then
 	echo "Docker is not installed"
-	exit
+	exit 1
 fi
-
-# if [ "$EUID" -ne 0 ] && (! getent group docker | grep -q "\b$USER\b"); then
-# 	echo "The user has no permissions to manage Docker"
-#   	exit
-# fi
 if ! docker info > /dev/null 2>&1; then
   echo "This script uses docker, and it isn't running or the user has no permissions to manage Docker"
   echo "Please start docker or change user and try again!"
