@@ -15,7 +15,7 @@ provider "aws" {
 
 resource "aws_key_pair" "ssh_key" {
   key_name   = "ssh-key"
-  public_key = file("../user_rsa.pub")
+  public_key = file("user_rsa.pub")
 }
 
 data "aws_ami" "ubuntu" {
