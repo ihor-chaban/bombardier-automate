@@ -8,7 +8,7 @@ Script for Docker image [alpine/bombardier](https://hub.docker.com/r/alpine/bomb
 - Docker installed
 - MacOS needs to have coreutils on a board
 ```sh
-brew install coreutils
+$ brew install coreutils
 ```
 
 #### Example how to use with Google Drive (you may use mine or set up your own):
