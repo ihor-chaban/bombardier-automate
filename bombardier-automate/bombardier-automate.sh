@@ -5,12 +5,13 @@ if [ ! -x "$(command -v docker)" ]; then
 	echo "Docker is not installed"
 	exit
 fi
-if [ "$EUID" -ne 0 ] && (! getent group docker | grep -q "\b$USER\b"); then
-	echo "The user has no permissions to manage Docker"
-  	exit
-fi
 
-TARGETS="https://drive.google.com/uc?id=$(echo $TARGETS | grep -oP '(?<=d/).*(?=/view)')"
+# if [ "$EUID" -ne 0 ] && (! getent group docker | grep -q "\b$USER\b"); then
+# 	echo "The user has no permissions to manage Docker"
+#   	exit
+# fi
+
+TARGETS="https://drive.google.com/uc?id=$(echo $TARGETS | sed -n "s/^.*d\/\(.*\)\/view.*$/\1/p")"
 
 while true; do
 	echo "Updating targets from URL"
