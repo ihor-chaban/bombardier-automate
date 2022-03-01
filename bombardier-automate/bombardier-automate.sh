@@ -10,6 +10,11 @@ fi
 # 	echo "The user has no permissions to manage Docker"
 #   	exit
 # fi
+if ! docker info > /dev/null 2>&1; then
+  echo "This script uses docker, and it isn't running or the user has no permissions to manage Docker"
+  echo "Please start docker or change user and try again!"
+  exit 1
+fi
 
 TARGETS="https://drive.google.com/uc?id=$(echo $TARGETS | sed -n "s/^.*d\/\(.*\)\/view.*$/\1/p")"
 
