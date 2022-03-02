@@ -42,7 +42,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_launch_template" "worker" {
   name_prefix            = "worker"
   image_id               = data.aws_ami.ubuntu.id
-  instance_type          = "t3a.micro"
+  instance_type          = var.instance_type
   key_name               = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids = [aws_security_group.ssh.id]
   user_data              = filebase64("${path.module}/data.sh")
@@ -57,7 +57,6 @@ resource "aws_autoscaling_group" "asg_worker" {
     instances_distribution {
       on_demand_base_capacity                  = 0
       on_demand_percentage_above_base_capacity = 25
-      spot_allocation_strategy                 = "capacity-optimized"
     }
     launch_template {
       launch_template_specification {
@@ -65,7 +64,7 @@ resource "aws_autoscaling_group" "asg_worker" {
         version            = "$Latest"
       }
       override {
-        instance_type = "t3a.micro"
+        instance_type = var.instance_type
       }
     }
   }
@@ -92,7 +91,7 @@ resource "aws_security_group" "ssh" {
   }
 }
 resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
+  name               = "iam_for_lambda"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -113,7 +112,7 @@ resource "aws_iam_policy" "lambda_logging" {
   name        = "lambda_logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
-  policy = <<EOF
+  policy      = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -138,7 +137,7 @@ resource "aws_iam_policy" "lambda_asg" {
   name        = "lambda_asg"
   path        = "/"
   description = "IAM policy for ASG from a lambda"
-  policy = <<EOF
+  policy      = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -165,12 +164,12 @@ data "archive_file" "lambda_zip_file_int" {
   }
 }
 resource "aws_lambda_function" "refresh_lambda" {
-  filename      = data.archive_file.lambda_zip_file_int.output_path
-  function_name = "lambda_refresher"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "lambda_function.lambda_handler"
+  filename         = data.archive_file.lambda_zip_file_int.output_path
+  function_name    = "lambda_refresher"
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.lambda_zip_file_int.output_base64sha256
-  runtime = "python3.8"
+  runtime          = "python3.8"
   environment {
     variables = {
       AutoScalingGroupName = aws_autoscaling_group.asg_worker.name
@@ -186,9 +185,9 @@ resource "aws_cloudwatch_event_rule" "refresh_asg" {
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_refresher" {
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.refresh_lambda.function_name}"
+  function_name = aws_lambda_function.refresh_lambda.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = "${aws_cloudwatch_event_rule.refresh_asg.arn}"
+  source_arn    = aws_cloudwatch_event_rule.refresh_asg.arn
 }
 resource "aws_cloudwatch_event_target" "triger_refresh" {
   arn  = aws_lambda_function.refresh_lambda.arn
