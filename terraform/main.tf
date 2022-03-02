@@ -42,7 +42,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_launch_template" "worker" {
   name_prefix            = "worker"
   image_id               = data.aws_ami.ubuntu.id
-  instance_type          = "t3a.micro"
+  instance_type          = "t2.micro"
   key_name               = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids = [aws_security_group.ssh.id]
   user_data              = filebase64("${path.module}/data.sh")
