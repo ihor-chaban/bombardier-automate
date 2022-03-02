@@ -50,8 +50,8 @@ resource "aws_launch_template" "worker" {
 resource "aws_autoscaling_group" "asg_worker" {
   name               = "worker_asg"
   availability_zones = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
-  desired_capacity   = 4
-  max_size           = 4
+  desired_capacity   = var.instance_count
+  max_size           = var.instance_count
   min_size           = 1
   mixed_instances_policy {
     instances_distribution {
