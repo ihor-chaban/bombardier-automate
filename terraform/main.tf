@@ -66,6 +66,7 @@ resource "aws_autoscaling_group" "asg_worker" {
     launch_template {
       launch_template_specification {
         launch_template_id = aws_launch_template.worker.id
+        version            = "$Latest"
       }
       override {
         instance_type = "t3a.micro"
