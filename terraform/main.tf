@@ -13,9 +13,20 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource "aws_key_pair" "ssh_key" {
-  key_name   = "ssh-key"
-  public_key = file("user_rsa.pub")
+  key_name   = "worker"
+  public_key = tls_private_key.ssh.public_key_openssh
+}
+
+resource "local_file" "private_ssh_key" {
+  filename        = "id_rsa.pem"
+  content         = tls_private_key.ssh.private_key_pem
+  file_permission = "0600"
 }
 
 data "aws_ami" "ubuntu" {
