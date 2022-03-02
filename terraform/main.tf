@@ -180,7 +180,7 @@ resource "aws_lambda_function" "refresh_lambda" {
 resource "aws_cloudwatch_event_rule" "refresh_asg" {
   name                = "RefreshASG"
   description         = "Refresh ASG"
-  schedule_expression = "rate(30 minutes)"
+  schedule_expression = "rate(${var.instance_lifetime})"
 }
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_refresher" {
   statement_id  = "AllowExecutionFromCloudWatch"
