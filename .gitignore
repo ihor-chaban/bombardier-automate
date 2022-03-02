@@ -2,3 +2,4 @@
 .terraform*
 *.zip
 .DS_Store
+id_rsa.pem

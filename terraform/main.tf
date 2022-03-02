@@ -194,3 +194,5 @@ resource "aws_cloudwatch_event_target" "triger_refresh" {
   arn  = aws_lambda_function.refresh_lambda.arn
   rule = aws_cloudwatch_event_rule.refresh_asg.id
 }
+
+
