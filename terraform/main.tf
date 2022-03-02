@@ -56,9 +56,21 @@ resource "aws_autoscaling_group" "asg_worker" {
   max_size           = 4
   min_size           = 1
 
-  launch_template {
-    id      = aws_launch_template.worker.id
-    version = "$Latest"
+  mixed_instances_policy {
+    instances_distribution {
+      on_demand_base_capacity                  = 0
+      on_demand_percentage_above_base_capacity = 25
+      spot_allocation_strategy                 = "capacity-optimized"
+    }
+
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.worker.id
+      }
+      override {
+        instance_type = "t3a.micro"
+      }
+    }
   }
 
   lifecycle {
