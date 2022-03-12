@@ -41,6 +41,10 @@ def ddos(threadName):
 		with printLock:
 			print("%s [%s] ddos: Processing targets" % (datetime.now(), threadName))
 		for url in SOURCE_URLS:
+			if config.LIMIT > 0:
+				while len(client.containers.list(filters={'name':config.PREFIX,'status':'running'})) >= config.LIMIT:
+					print("%s [%s] ddos: Containers limit %i reached. Retrying in 1 min" % (datetime.now(), threadName, config.LIMIT))
+					time.sleep(60)
 			if check_availability(url, config.TIMEOUT):
 				with printLock:
 					print("%s [%s] ddos: * %s - UP, start/continue DDoS" % (datetime.now(), threadName, url))

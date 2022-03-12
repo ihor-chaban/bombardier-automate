@@ -61,6 +61,7 @@ All the configuration is already set with optimal values, so you can just run th
 #### The script configuration is located in `bombardier-automate/config.py`
 **TARGETS** - Google Drive URL to retrieve DDoS targets from (default: `https://drive.google.com/file/d/1rmAAKd0zgNeQdd3u45xtlMQ3Bj_ad9FJ/view?usp=sharing`)  
 **THREADS** - Number of threads to run in parallel. This will not affect the DDoS directly, it is just about the speed of checking targets liveness and creating Docker containers (default: `5`)  
+**LIMIT** - Containers limit (0 - no limit) (default: `0`)  
 **TIMEOUT** - How long to wait for the response from a target in seconds (default: `10`)  
 **CONNECTIONS** - The number of concurrent connections per target (default: `100`)  
 **DURATION** - How long the Docker container will attack the target in seconds. If the target is still alive, the container will be re-created again (default: `3600`)  
