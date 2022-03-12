@@ -4,7 +4,7 @@ Automation script for Docker image [alpine/bombardier](https://hub.docker.com/r/
 #### Features
 - Cross-platform
 - DDoS multiple targets simultaneously
-- Centralized targets management with Google Docs
+- Centralized targets management with Google Drive
 - Easy deployment to AWS with Terraform
 - Automatic instances rotation for refreshing IP pool
 
@@ -18,31 +18,31 @@ For AWS
 - `terraform`
 
 ## How to run the script standalone
-If you just want to run the script locally on your laptop/PC you shold install Python (v2 and v3 both are supported) with `pip` and Docker.
-Depending on your OS the exact insturctions may differ, so please use Google.
-One that is done, download and extract ZIP acrhive or clone this repository  
+If you just want to run the script locally on your laptop/PC you should install Python (v2 and v3 both are supported) with `pip` and Docker.
+Depending on your OS the exact instructions may differ, so please use Google.
+Once that is done, download and extract ZIP archive or clone this repository  
 ```$ git clone https://github.com/ihor-chaban/bombardier-automate.git```
 
-Install neccesary Python libs  
+Install necessary Python libs  
 ```$ pip install -r bombardier-automate/bombardier-automate/requirements.txt```
 
-Now you just run the script as usual, depending on your OS (from CLI or GUI)  
+Now you just run the script, as usual, depending on your OS (from CLI or GUI)  
 ```
 $ ./bombardier-automate.py
 or
 $ python bombardier-automate.py
 ```
 
-Now the script will retrieve the list of targers and start creating Docker containers. You're good to go, just leave it and watch!
+Now the script will retrieve the list of targets and start creating Docker containers. You're good to go, just leave it and watch!
 
 ## How to deploy the solution to AWS
-Cloud deployment is preferable option, as it is MUCH more effective comparing to a single device with VPN.
-If you familiar with cloud services, this will be pretty easy and can be done in 5 minutes.
+Cloud deployment is a preferable option, as it is MUCH more effective compared to a single device with a VPN.
+If you are familiar with cloud services, this will be pretty easy and can be done in 5 minutes.
 Install `aws-cli` and `terraform`. Go to `your AWS account - Security credentials - Access keys and Create New Access Key`.
 Configure your `aws-cli` with these newly-created credentials. Test the access using command  
 ```$ aws sts get-caller-identity```
 
-One that is done, download and extract ZIP acrhive or clone this repository  
+Once that is done, download and extract ZIP archive or clone this repository  
 ```$ git clone https://github.com/ihor-chaban/bombardier-automate.git```
 
 Go to `terraform` folder and run  
@@ -53,7 +53,7 @@ Then run
 
 And type `yes` when prompted for confirmation.
 Watch the deployment process, everything will be set up automatically.
-When the deployment is finished you may log it to some instance with newly-generated SSH key `id-rsa.pem` to inspect the result.
+When the deployment is finished you may log in to some instance with newly-generated SSH key `id-rsa.pem` to inspect the result.
 You’re good to go, just leave it and watch!
 
 ## Config
@@ -72,7 +72,7 @@ All the configuration is already set with optimal values, so you can just run th
 **instance_lifetime** - How often the instances should be rotated (default: `30 minutes`)
 
 ## How to switch to your own targets list
-The default URL hardcoded in this solution contains more than 300 targets and being updated regularly by me, so it is ready for use as-is. However, if you want to use your own list to focus on the specific targets,  below I will provide a short instruction.
+The default URL hardcoded in this solution contains more than 300 targets and is being updated regularly by me, so it is ready for use as-is. However, if you want to use your own list to focus on the specific targets,  below I will provide a short instruction.
 - Create any `.txt` file with the list of targets one per line:  
 ```
 https://www.sberbank.ru/
@@ -95,7 +95,7 @@ To stop the DDoS and remove everything related just stop the script then remove 
 Go to `terraform` folder and run  
 ```$ terraform destroy```
 Type `yes` when prompted for confirmation.
-All the resources created by this solution will be permanently destoyed. You may deploy them again just like for the first time.
+All the resources created by this solution will be permanently destroyed. You may deploy them again just like for the first time.
 
 
 ## Targets
