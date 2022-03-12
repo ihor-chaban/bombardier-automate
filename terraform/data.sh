@@ -8,4 +8,4 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io git python3 python
 sudo usermod -aG docker ubuntu
 git clone https://github.com/ihor-chaban/bombardier-automate.git /home/ubuntu/bombardier-automate
 pip3 install -r /home/ubuntu/bombardier-automate/bombardier-automate/requirements.txt
-nohup python3 /home/ubuntu/bombardier-automate/bombardier-automate//bombardier-automate.py &
+nohup python3 /home/ubuntu/bombardier-automate/bombardier-automate/bombardier-automate.py &
