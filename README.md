@@ -38,7 +38,7 @@ Now the script will retrieve the list of targets and start creating Docker conta
 ## How to deploy the solution to AWS
 Cloud deployment is a preferable option, as it is MUCH more effective compared to a single device with a VPN.
 If you are familiar with cloud services, this will be pretty easy and can be done in 5 minutes.
-Install `aws-cli` and `terraform`. Go to `your AWS account - Security credentials - Access keys and Create New Access Key`.
+Install `aws-cli` and `terraform`. Go to your `AWS account - Security credentials - Access keys - Create New Access Key`.
 Configure your `aws-cli` with these newly-created credentials. Test the access using command  
 ```$ aws sts get-caller-identity```
 
@@ -94,6 +94,7 @@ To stop the DDoS and remove everything related just stop the script then remove 
 #### AWS
 Go to `terraform` folder and run  
 ```$ terraform destroy```
+
 Type `yes` when prompted for confirmation.
 All the resources created by this solution will be permanently destroyed. You may deploy them again just like for the first time.
 
