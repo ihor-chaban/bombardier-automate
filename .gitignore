@@ -3,3 +3,5 @@
 *.zip
 .DS_Store
 id_rsa.pem
+config.pyc
+__pycache__
