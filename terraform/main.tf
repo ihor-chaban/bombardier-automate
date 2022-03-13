@@ -39,13 +39,40 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 }
+locals {
+  cloud_config_config = <<-END
+    #cloud-config
+    ${jsonencode({
+      write_files = [
+        {
+          path        = "/tmp/config.py"
+          content     = file("${path.module}/../bombardier-automate/config.py")
+        },
+      ]
+    })}
+  END
+}
+data "cloudinit_config" "example" {
+  gzip          = false
+  base64_encode = true
+  part {
+    content_type = "text/cloud-config"
+    filename     = "cloud-config.yaml"
+    content      = local.cloud_config_config
+  }
+  part {
+    content_type = "text/x-shellscript"
+    filename     = "data.sh"
+    content      = file("${path.module}/data.sh")
+  }
+}
 resource "aws_launch_template" "worker" {
   name_prefix            = "worker"
   image_id               = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids = [aws_security_group.ssh.id]
-  user_data              = filebase64("${path.module}/data.sh")
+  user_data              = data.cloudinit_config.example.rendered
 }
 resource "aws_autoscaling_group" "asg_worker" {
   name               = "worker_asg"
@@ -69,7 +96,7 @@ resource "aws_autoscaling_group" "asg_worker" {
     }
   }
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = false
   }
 }
 resource "aws_security_group" "ssh" {
@@ -193,5 +220,3 @@ resource "aws_cloudwatch_event_target" "triger_refresh" {
   arn  = aws_lambda_function.refresh_lambda.arn
   rule = aws_cloudwatch_event_rule.refresh_asg.id
 }
-
-
